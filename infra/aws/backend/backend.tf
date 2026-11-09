@@ -1,6 +1,6 @@
 # S3 Bucket for State Storage
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = local.terraform_state_bucket
+  bucket        = "${var.aws_account_id}-${replace(var.aws_user_id, "_", "-")}"
   force_destroy = false
 }
 
@@ -24,18 +24,18 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
 
 # Explicitly block all public access to the bucket
 resource "aws_s3_bucket_public_access_block" "public_access" {
-  bucket = aws_s3_bucket.terraform_state.id
-  block_public_acls = true
-  block_public_policy = true
-  ignore_public_acls = true
+  bucket                  = aws_s3_bucket.terraform_state.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
 # DynamoDB Table for State Locking
 resource "aws_dynamodb_table" "terraform_locks" {
-  name = "terraform-state-locks"
+  name         = "terraform-state-locks"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key = "LockID"
+  hash_key     = "LockID"
   attribute {
     name = "LockID"
     type = "S"
