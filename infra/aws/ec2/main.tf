@@ -1,10 +1,10 @@
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["679593333241"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "name"
-    values = ["ubuntu-minimal/images/hvm-ssd/ubuntu-focal-20.04-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-*"]
   }
 
   filter {
@@ -17,7 +17,7 @@ data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
     bucket = "905418290018-kk-labs-user-597258"
-    key = "network/terraform.tfstate"
+    key = "network"
     region = "us-east-1"
   }
 }
@@ -37,7 +37,8 @@ module "ec2_instance" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.my_key_pair.key_name
   monitoring    = true
-  subnet_id     = data.terraform_remote_state.network.outputs.public_subnets[0].id
+  # network's public_subnets output holds ARNs; basename extracts the subnet-xxx ID the API needs
+  subnet_id     = basename(data.terraform_remote_state.network.outputs.public_subnets[0])
 
   tags = {
     Terraform   = "true"
