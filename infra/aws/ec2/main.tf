@@ -33,10 +33,29 @@ module "ec2_instance" {
 
   name = "my-ec2"
   ami = data.aws_ami.ubuntu.id
+  associate_public_ip_address = true
 
   instance_type = "t2.micro"
   key_name      = aws_key_pair.my_key_pair.key_name
   monitoring    = true
+
+  # the module creates an empty security group by default; open SSH inbound
+  security_group_ingress_rules = {
+    ssh = {
+      description = "Allow SSH"
+      from_port   = 22
+      to_port     = 22
+      ip_protocol = "tcp"
+      cidr_ipv4   = "0.0.0.0/0"
+    }
+    icmp = {
+      description = "Allow ping"
+      from_port = -1
+      to_port = -1
+      ip_protocol = "icmp"
+      cidr_ipv4 = "0.0.0.0/0"
+    }
+  }
   # network's public_subnets output holds ARNs; basename extracts the subnet-xxx ID the API needs
   subnet_id     = basename(data.terraform_remote_state.network.outputs.public_subnets[0])
 
