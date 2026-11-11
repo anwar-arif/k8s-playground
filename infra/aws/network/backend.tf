@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "905418290018-kk-labs-user-597258"
+    bucket = "20261112-anwar"
     key = "network"
     region = "us-east-1"
     dynamodb_table = "terraform-state-locks"

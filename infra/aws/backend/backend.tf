@@ -1,6 +1,7 @@
 # S3 Bucket for State Storage
 resource "aws_s3_bucket" "terraform_state" {
-  bucket        = "${var.aws_account_id}-${replace(var.aws_user_id, "_", "-")}"
+  # bucket        = "${var.aws_account_id}-${replace(var.aws_user_id, "_", "-")}"
+  bucket = var.tf_state_bucket_name
   force_destroy = false
 }
 

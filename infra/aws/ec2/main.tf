@@ -16,9 +16,9 @@ data "aws_ami" "ubuntu" {
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "905418290018-kk-labs-user-597258"
+    bucket = "20261112-anwar"
     key = "network"
-    region = "us-east-1"
+    region = var.region
   }
 }
 
