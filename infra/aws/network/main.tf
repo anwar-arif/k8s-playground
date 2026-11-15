@@ -2,7 +2,7 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "6.7.3"
 
-  name = "ny-vpc"
+  name = "my-vpc"
   cidr = "10.0.0.0/16"
 
   azs = ["us-east-1a"]
