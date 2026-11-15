@@ -10,8 +10,8 @@ resource "aws_security_group" "web_sg" {
 resource "aws_vpc_security_group_ingress_rule" "web_sg_ingress_ping" {
   security_group_id = aws_security_group.web_sg.id
   ip_protocol       = "icmp"
-  from_port         = -1
-  to_port           = -1
+  from_port         = -1 # Allow all icmp codes
+  to_port           = -1 # Allow all icmp codes
   cidr_ipv4         = "0.0.0.0/0"
 }
 
