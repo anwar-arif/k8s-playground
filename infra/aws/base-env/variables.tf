@@ -5,7 +5,7 @@ variable "region" {
 }
 
 variable "tf_state_bucket_name" {
-  type = string
+  type        = string
   description = "terraform state bucket name"
-  default = "20261112-anwar"
+  default     = "20261112-anwar"
 }
